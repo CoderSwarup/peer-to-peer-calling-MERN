@@ -45,7 +45,34 @@ io.on("connection", (socket) => {
   socket.emit("me", user);
 
   socket.on("CALL:TO:USER", (data) => {
-    console.log("CALL TO USER ", data);
+    // console.log("CALL TO USER ", data);
+    let toUserData = USERS.find((user) => user.id === data.callToUserId);
+    if (toUserData) {
+      io.to(toUserData.id).emit("INCOMING:CALL", data);
+    }
+  });
+  socket.on("REJECT:CALL", (data) => {
+    io.to(data.to.id).emit("CALL:REJECTED", data);
+  });
+
+  socket.on("ACCEPT:CALL", (data) => {
+    console.log("CALL ACCEPT ", data);
+
+    // signal: data,
+    // fromUser: currentUser,
+    // to: inComingCallDetails.fromUser,
+
+    io.to(data.to.id).emit("CALL:ACCEPT", data);
+  });
+
+  socket.on("END:CALL", (data) => {
+    console.log("CALL END FROM", data);
+
+    if (data.to) {
+      io.to(data.to.id).emit("CALL:END", {
+        fromUser: data.fromUser,
+      });
+    }
   });
 
   socket.on("disconnect", () => {
@@ -55,6 +82,10 @@ io.on("connection", (socket) => {
       USERS.splice(index, 1);
       io.emit("newUsers", USERS);
     }
+
+    socket.broadcast.emit("USER:DISCONNECT", {
+      fromUser: socket.id,
+    });
   });
 });
 

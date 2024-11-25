@@ -1,4 +1,5 @@
 import "./App.css";
+import IncomingCallDialog from "./components/IncomingCallDialog";
 import SideBar from "./components/SideBar";
 import VideoDashBoard from "./components/VideoDashBoard";
 import { useSocket } from "./context/SocketContext";
@@ -15,6 +16,7 @@ function App() {
           <h1>Call To The User</h1>
         </div>
       )}
+      <IncomingCallDialog />
     </div>
   );
 }

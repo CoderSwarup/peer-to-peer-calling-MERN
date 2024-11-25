@@ -17,7 +17,7 @@ export default function SideBar() {
   return (
     <div className="w-[200px] border-r-4 border-indigo-500	h-full ">
       <h1 className="font-bold text-xl text-center">USERS LIST</h1>
-      <div className="flex flex-col justify-between h-full p-4">
+      <div className="flex flex-col justify-start h-full p-4 gap-2">
         {activeUser?.map((user, idx) => {
           return (
             <div key={idx} className="flex items-center justify-between mb-2">
