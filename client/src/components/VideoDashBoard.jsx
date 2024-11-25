@@ -8,6 +8,9 @@ import {
   FaVideo,
   FaVideoSlash,
 } from "react-icons/fa";
+import { MdScreenShare } from "react-icons/md";
+import { MdStopScreenShare } from "react-icons/md";
+import useScreenCapture from "../context/useScreenCapture";
 
 export default function VideoDashBoard() {
   const {
@@ -25,6 +28,8 @@ export default function VideoDashBoard() {
     audioEnabled,
     videoEnabled,
   } = useSocket();
+
+  const { shareScreen, stopScreenShare, screenSharing } = useScreenCapture();
 
   return (
     <div className="flex-1 flex flex-col h-full p-4 w-[100%] bg-red-100">
@@ -50,6 +55,23 @@ export default function VideoDashBoard() {
         <button onClick={toggleVideo} className="p-2 rounded-full bg-gray-200">
           {videoEnabled ? <FaVideo size={24} /> : <FaVideoSlash size={24} />}
         </button>
+        {screenSharing ? (
+          <button
+            onClick={stopScreenShare}
+            className="p-2 rounded-full bg-gray-200"
+            title="Stop Screen Sharing"
+          >
+            <MdStopScreenShare size={24} />
+          </button>
+        ) : (
+          <button
+            onClick={shareScreen}
+            className="p-2 rounded-full bg-gray-200"
+            title="Share Screen"
+          >
+            <MdScreenShare size={24} />
+          </button>
+        )}
         <FcEndCall size={30} onClick={EndCall} />
       </div>
     </div>
