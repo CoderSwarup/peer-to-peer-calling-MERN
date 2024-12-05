@@ -9,12 +9,13 @@ import {
 import { io } from "socket.io-client";
 import Peer from "simple-peer";
 
-export const SOCKET_URL = "http://localhost:3000";
+export const SOCKET_URL = import.meta.env.VITE_SOCKET_URL;
+console.log(SOCKET_URL);
 
 const SocketContext = createContext(null);
 
 export const SocketProvider = ({ children }) => {
-  const socket = useMemo(() => io("http://localhost:3000/"), []);
+  const socket = useMemo(() => io(SOCKET_URL), []);
 
   const [users, setUsers] = useState([]);
   const [currentUser, setCurrentUser] = useState();
